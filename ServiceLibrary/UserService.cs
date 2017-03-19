@@ -6,12 +6,23 @@ namespace ServiceLibrary
 {
     public class UserService
     {
-        private List<User> users;
+        /// <summary>
+        /// Equality comparer to instances of User class.
+        /// </summary>
         private readonly IEqualityComparer<User> equalityComparer;
+
+        /// <summary>
+        /// Determines how to generate id.
+        /// </summary>
         private readonly Func<int> idGenerator;
 
         /// <summary>
-        /// Constructor. Creates list of users.
+        /// List of users.
+        /// </summary>
+        private List<User> users;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserService"/> class.
         /// </summary>
         /// <param name="idGenerator">Delegate to generate Id.</param>
         /// <param name="equalityComparer">Determines how to find out if users are the same.</param>
@@ -20,14 +31,15 @@ namespace ServiceLibrary
             if (ReferenceEquals(idGenerator, null))
             {
                 int maxId;
-                if (users != null)
+                if (this.users != null)
                 {
-                    maxId = users.Max(user => user.Id);
+                    maxId = this.users.Max(user => user.Id);
                 }
                 else
                 {
                     maxId = 0;
                 } 
+
                 this.idGenerator = () => maxId++;
             }
             else
@@ -35,7 +47,7 @@ namespace ServiceLibrary
                 this.idGenerator = idGenerator;
             }
 
-            users = new List<User>();
+            this.users = new List<User>();
             this.equalityComparer = equalityComparer ?? EqualityComparer<User>.Default;
         }
 
@@ -64,13 +76,13 @@ namespace ServiceLibrary
                 throw new EmptyLastNameException($"LastName of {nameof(user)} is empty.");
             }
 
-            if (users.Contains(user,equalityComparer))
+            if (this.users.Contains(user, this.equalityComparer))
             {
                 throw new AlreadyExistsException("Such user is already exists.");
             }
 
-            user.Id = idGenerator();
-            users.Add(user);
+            user.Id = this.idGenerator();
+            this.users.Add(user);
         }
 
         /// <summary>
@@ -90,12 +102,12 @@ namespace ServiceLibrary
                 throw new ArgumentNullException(nameof(user));
             }
 
-            if (!users.Contains(user,equalityComparer))
+            if (!this.users.Contains(user, this.equalityComparer))
             {
                 throw new DoesNotExistsException("Such user does not exists.");
             }
 
-            users.Remove(user);
+            this.users.Remove(user);
         }
 
         /// <summary>
@@ -118,7 +130,7 @@ namespace ServiceLibrary
                 throw new ArgumentNullException(nameof(condition));
             }
 
-            return users.FindAll(condition);
+            return this.users.FindAll(condition);
         }
     }
 }
