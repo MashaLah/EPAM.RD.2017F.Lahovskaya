@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace ServiceLibrary
 {
-    public interface IIdGenerator
+    public interface IUserStorage
     {
-        int GenerateId(List<User> users);
+        void SaveUsers(IEnumerable<User> users);
+        IEnumerable<User> LoadUsers();
     }
 }

@@ -1,29 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ServiceLibrary
 {
     public class UserService
     {
         private List<User> users;
-        private IIdGenerator idGenerator;
+        private readonly IEqualityComparer<User> equalityComparer;
+        private readonly Func<int> idGenerator;
 
         /// <summary>
         /// Constructor. Creates list of users.
         /// </summary>
-        /// <param name="idGenerator">Instance of IIdGenerator.</param>
-        /// <exception cref="ArgumentNullException">
-        /// Throws when <see cref="idGenerator"> is null.
-        /// </exception>
-        public UserService(IIdGenerator idGenerator)
+        /// <param name="idGenerator">Delegate to generate Id.</param>
+        /// <param name="equalityComparer">Determines how to find out if users are the same.</param>
+        public UserService(Func<int> idGenerator = null, IEqualityComparer<User> equalityComparer = null)
         {
-            if (idGenerator == null)
+            if (ReferenceEquals(idGenerator, null))
             {
-                throw new ArgumentNullException(nameof(idGenerator));
+                int maxId;
+                if (users != null)
+                {
+                    maxId = users.Max(user => user.Id);
+                }
+                else
+                {
+                    maxId = 0;
+                } 
+                this.idGenerator = () => maxId++;
+            }
+            else
+            {
+                this.idGenerator = idGenerator;
             }
 
             users = new List<User>();
-            this.idGenerator = idGenerator;
+            this.equalityComparer = equalityComparer ?? EqualityComparer<User>.Default;
         }
 
         /// <summary>
@@ -41,7 +54,7 @@ namespace ServiceLibrary
         /// </exception>
         public void Add(User user)
         {
-            if (user == null)
+            if (ReferenceEquals(user, null))
             {
                 throw new ArgumentNullException(nameof(user));
             }
@@ -51,12 +64,12 @@ namespace ServiceLibrary
                 throw new EmptyLastNameException($"LastName of {nameof(user)} is empty.");
             }
 
-            if (users.Contains(user))
+            if (users.Contains(user,equalityComparer))
             {
                 throw new AlreadyExistsException("Such user is already exists.");
             }
 
-            user.Id = idGenerator.GenerateId(users);
+            user.Id = idGenerator();
             users.Add(user);
         }
 
@@ -72,12 +85,12 @@ namespace ServiceLibrary
         /// </exception>
         public void Remove(User user)
         {
-            if (user == null)
+            if (ReferenceEquals(user, null))
             {
                 throw new ArgumentNullException(nameof(user));
             }
 
-            if (!users.Contains(user))
+            if (!users.Contains(user,equalityComparer))
             {
                 throw new DoesNotExistsException("Such user does not exists.");
             }
@@ -100,7 +113,7 @@ namespace ServiceLibrary
         /// </exception>
         public List<User> Search(Predicate<User> condition)
         {
-            if (condition == null)
+            if (ReferenceEquals(condition, null))
             {
                 throw new ArgumentNullException(nameof(condition));
             }

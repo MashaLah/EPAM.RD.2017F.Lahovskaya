@@ -12,8 +12,8 @@ namespace ServiceLibrary.Tests
         public void Search_NullCondition_ExceptionThrown()
         {
             // Arrange
-            IdGenerator idGenerator = new IdGenerator();
-            UserService userService = new UserService(idGenerator);
+            
+            UserService userService = new UserService();
 
             // Act-Assert
             var users = userService.Search(null);
@@ -23,8 +23,7 @@ namespace ServiceLibrary.Tests
         public void Search_UserDoesNotExists_EmptyResult()
         {
             // Arrange
-            IdGenerator idGenerator = new IdGenerator();
-            UserService userService = new UserService(idGenerator);
+            UserService userService = new UserService();
 
             // Act
             List<User> users = userService.Search(x => x.LastName == "Lannister");
@@ -37,8 +36,7 @@ namespace ServiceLibrary.Tests
         public void Search_ValidUser_User()
         {
             // Arrange
-            IdGenerator idGenerator = new IdGenerator();
-            UserService userService = new UserService(idGenerator);
+            UserService userService = new UserService();
             User user = new User()
             {
                 FirstName = "Arya",
@@ -59,9 +57,8 @@ namespace ServiceLibrary.Tests
         public void Add_NullUser_ExceptionThrown()
         {
             // Arrange
-            IdGenerator idGenerator = new IdGenerator();
             User user = null;
-            UserService userService = new UserService(idGenerator);
+            UserService userService = new UserService();
 
             // Act-Assert
             userService.Add(user);
@@ -72,14 +69,13 @@ namespace ServiceLibrary.Tests
         public void Add_UserThatAlreadyExists_ExceptionThrown()
         {
             // Arrange
-            IdGenerator idGenerator = new IdGenerator();
             User user = new User()
             {
                 FirstName = "Arya",
                 LastName = "Stark",
                 DateOfBirth = DateTime.Now
             };
-            UserService userService = new UserService(idGenerator);
+            UserService userService = new UserService();
 
             // Act
             userService.Add(user);
@@ -93,9 +89,8 @@ namespace ServiceLibrary.Tests
         public void Add_UserWithEmptyLastName_ExceptionThrown()
         {
             // Arrange
-            IdGenerator idGenerator = new IdGenerator();
             User user = new User();
-            UserService userService = new UserService(idGenerator);
+            UserService userService = new UserService();
 
             // Act-Assert
             userService.Add(user);
@@ -105,14 +100,13 @@ namespace ServiceLibrary.Tests
         public void Add_ValidUser_UserIsAdded()
         {
             // Arrange
-            IdGenerator idGenerator = new IdGenerator();
             User user = new User()
             {
                 FirstName = "Arya",
                 LastName = "Stark",
                 DateOfBirth = DateTime.Now
             };
-            UserService userService = new UserService(idGenerator);
+            UserService userService = new UserService();
 
             // Act
             userService.Add(user);
@@ -127,9 +121,8 @@ namespace ServiceLibrary.Tests
         public void Remove_NullUser_ExceptionThrown()
         {
             // Arrange
-            IdGenerator idGenerator = new IdGenerator();
             User user = null;
-            UserService userService = new UserService(idGenerator);
+            UserService userService = new UserService();
 
             // Act-Assert
             userService.Remove(user);
@@ -140,14 +133,13 @@ namespace ServiceLibrary.Tests
         public void Remove_UserDoesNotExists_ExceptionThrown()
         {
             // Arrange
-            IdGenerator idGenerator = new IdGenerator();
             User user = new User()
             {
                 FirstName = "Arya",
                 LastName = "Stark",
                 DateOfBirth = DateTime.Now
             };
-            UserService userService = new UserService(idGenerator);
+            UserService userService = new UserService();
 
             // Act-Assert
             userService.Remove(user);
@@ -157,14 +149,13 @@ namespace ServiceLibrary.Tests
         public void Remove_ValidUser_UserRemoved()
         {
             // Arrange
-            IdGenerator idGenerator = new IdGenerator();
             User user = new User()
             {
                 FirstName = "Arya",
                 LastName = "Stark",
                 DateOfBirth = DateTime.Now
             };
-            UserService userService = new UserService(idGenerator);
+            UserService userService = new UserService();
             userService.Add(user);
 
             // Act

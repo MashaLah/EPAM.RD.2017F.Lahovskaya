@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLibrary.Tests", "Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceApplication", "ServiceApplication\ServiceApplication.csproj", "{B1B22373-9578-4671-AB7C-3D8041BA551E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserStorage", "UserStorage\UserStorage.csproj", "{05AE48C2-E57F-486E-B306-E76225130698}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B1B22373-9578-4671-AB7C-3D8041BA551E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1B22373-9578-4671-AB7C-3D8041BA551E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1B22373-9578-4671-AB7C-3D8041BA551E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05AE48C2-E57F-486E-B306-E76225130698}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05AE48C2-E57F-486E-B306-E76225130698}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05AE48C2-E57F-486E-B306-E76225130698}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05AE48C2-E57F-486E-B306-E76225130698}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
