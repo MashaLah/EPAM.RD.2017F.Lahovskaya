@@ -13,7 +13,7 @@ namespace ServiceLibrary.Tests
         {
             // Arrange
             
-            UserService userService = new UserService();
+            MasterUserService userService = new MasterUserService();
 
             // Act-Assert
             var users = userService.Search(null);
@@ -23,7 +23,7 @@ namespace ServiceLibrary.Tests
         public void Search_UserDoesNotExists_EmptyResult()
         {
             // Arrange
-            UserService userService = new UserService();
+            MasterUserService userService = new MasterUserService();
 
             // Act
             List<User> users = userService.Search(x => x.LastName == "Lannister");
@@ -36,7 +36,7 @@ namespace ServiceLibrary.Tests
         public void Search_ValidUser_User()
         {
             // Arrange
-            UserService userService = new UserService();
+            MasterUserService userService = new MasterUserService();
             User user = new User()
             {
                 FirstName = "Arya",
@@ -58,7 +58,7 @@ namespace ServiceLibrary.Tests
         {
             // Arrange
             User user = null;
-            UserService userService = new UserService();
+            MasterUserService userService = new MasterUserService();
 
             // Act-Assert
             userService.Add(user);
@@ -75,7 +75,7 @@ namespace ServiceLibrary.Tests
                 LastName = "Stark",
                 DateOfBirth = DateTime.Now
             };
-            UserService userService = new UserService();
+            MasterUserService userService = new MasterUserService();
 
             // Act
             userService.Add(user);
@@ -90,7 +90,7 @@ namespace ServiceLibrary.Tests
         {
             // Arrange
             User user = new User();
-            UserService userService = new UserService();
+            MasterUserService userService = new MasterUserService();
 
             // Act-Assert
             userService.Add(user);
@@ -106,7 +106,7 @@ namespace ServiceLibrary.Tests
                 LastName = "Stark",
                 DateOfBirth = DateTime.Now
             };
-            UserService userService = new UserService();
+            MasterUserService userService = new MasterUserService();
 
             // Act
             userService.Add(user);
@@ -122,7 +122,7 @@ namespace ServiceLibrary.Tests
         {
             // Arrange
             User user = null;
-            UserService userService = new UserService();
+            MasterUserService userService = new MasterUserService();
 
             // Act-Assert
             userService.Remove(user);
@@ -139,7 +139,7 @@ namespace ServiceLibrary.Tests
                 LastName = "Stark",
                 DateOfBirth = DateTime.Now
             };
-            UserService userService = new UserService();
+            MasterUserService userService = new MasterUserService();
 
             // Act-Assert
             userService.Remove(user);
@@ -155,7 +155,7 @@ namespace ServiceLibrary.Tests
                 LastName = "Stark",
                 DateOfBirth = DateTime.Now
             };
-            UserService userService = new UserService();
+            MasterUserService userService = new MasterUserService();
             userService.Add(user);
 
             // Act

@@ -10,7 +10,7 @@ namespace ServiceApplication
         {
             string filename = ConfigurationManager.AppSettings["fileName"];
 
-            var service = new UserService();
+            var service = new MasterUserService();
 
             // 1. Add a new user to the storage.
             User user = new User()
