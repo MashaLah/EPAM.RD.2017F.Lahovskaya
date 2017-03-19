@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,6 +21,8 @@ namespace ServiceLibrary
         /// List of users.
         /// </summary>
         private List<User> users;
+
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserService"/> class.
@@ -66,19 +69,43 @@ namespace ServiceLibrary
         /// </exception>
         public void Add(User user)
         {
-            if (ReferenceEquals(user, null))
+            try
             {
-                throw new ArgumentNullException(nameof(user));
+                if (ReferenceEquals(user, null))
+                {
+                    throw new ArgumentNullException(nameof(user));
+                }
+
+                if (string.IsNullOrEmpty(user.LastName))
+                {
+                    throw new EmptyLastNameException($"LastName of {nameof(user)} is empty.");
+                }
+
+                if (this.users.Contains(user, this.equalityComparer))
+                {
+                    throw new AlreadyExistsException("Such user is already exists.");
+                }
             }
 
-            if (string.IsNullOrEmpty(user.LastName))
+            catch (ArgumentNullException exception)
             {
-                throw new EmptyLastNameException($"LastName of {nameof(user)} is empty.");
+                logger.Info(exception.Message);
+                logger.Trace(exception.StackTrace);
+                throw;
             }
 
-            if (this.users.Contains(user, this.equalityComparer))
+            catch (EmptyLastNameException exception)
             {
-                throw new AlreadyExistsException("Such user is already exists.");
+                logger.Info(exception.Message);
+                logger.Trace(exception.StackTrace);
+                throw;
+            }
+
+            catch (AlreadyExistsException exception)
+            {
+                logger.Info(exception.Message);
+                logger.Trace(exception.StackTrace);
+                throw;
             }
 
             user.Id = this.idGenerator();
@@ -97,14 +124,31 @@ namespace ServiceLibrary
         /// </exception>
         public void Remove(User user)
         {
-            if (ReferenceEquals(user, null))
+            try
             {
-                throw new ArgumentNullException(nameof(user));
+                if (ReferenceEquals(user, null))
+                {
+                    throw new ArgumentNullException(nameof(user));
+                }
+
+                if (!this.users.Contains(user, this.equalityComparer))
+                {
+                    throw new DoesNotExistsException("Such user does not exists.");
+                }
             }
 
-            if (!this.users.Contains(user, this.equalityComparer))
+            catch (ArgumentNullException exception)
             {
-                throw new DoesNotExistsException("Such user does not exists.");
+                logger.Info(exception.Message);
+                logger.Trace(exception.StackTrace);
+                throw;
+            }
+
+            catch (DoesNotExistsException exception)
+            {
+                logger.Info(exception.Message);
+                logger.Trace(exception.StackTrace);
+                throw;
             }
 
             this.users.Remove(user);
@@ -125,9 +169,19 @@ namespace ServiceLibrary
         /// </exception>
         public List<User> Search(Predicate<User> condition)
         {
-            if (ReferenceEquals(condition, null))
+            try
             {
-                throw new ArgumentNullException(nameof(condition));
+                if (ReferenceEquals(condition, null))
+                {
+                    throw new ArgumentNullException(nameof(condition));
+                }
+            }
+
+            catch (ArgumentNullException exception)
+            {
+                logger.Info(exception.Message);
+                logger.Trace(exception.StackTrace);
+                throw;
             }
 
             return this.users.FindAll(condition);
